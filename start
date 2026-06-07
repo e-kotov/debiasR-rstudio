@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Ensure we are in the home directory
+cd /home/${NB_USER}
+
+# Fast pull of latest debiasR source
+if [ -d "debiasR" ]; then
+    echo "Updating debiasR..."
+    cd debiasR && git pull && cd ..
+else
+    echo "Cloning debiasR..."
+    git clone "https://github.com/de-bias/debiasR.git" "debiasR"
+fi
+
+# Note: debiasRdata is installed as a regular package during build time.
+# debiasR is loaded via devtools::load_all() in the vignettes.
+
+# REQUIRED: hand over control to the command Binder expects
+exec "$@"
